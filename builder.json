@@ -1,0 +1,140 @@
+{
+    "name": "aws-crt-java",
+    "packages": [
+        "maven"
+    ],
+    "build_steps": [
+        "mvn -B compile"
+    ],
+    "test_steps": [
+        "mvn -B test"
+    ],
+    "imports": [
+        "JDK8"
+    ],
+    "build_dir": "target/cmake-build",
+    "build_env": {
+        "JAVA_HOME": "{java_home}"
+    },
+    "hosts": {
+        "ubuntu": {
+            "packages": [
+                "openjdk-8-jdk-headless"
+            ]
+        },
+        "debian": {
+            "packages": [
+                "openjdk-8-jdk-headless"
+            ]
+        }
+    },
+    "targets": {
+        "linux": {
+            "imports": [
+                "s2n"
+            ],
+            "!build_steps": [
+                "mvn -B compile -Dlibcrypto.path={libcrypto_path}"
+            ],
+            "!test_steps": [
+                "mvn -B test -Dlibcrypto.path={libcrypto_path}"
+            ],
+            "architectures": {
+                "armv6": {
+                    "!packages": [],
+                    "!build_steps": [
+                        "build"
+                    ],
+                    "!test_steps": [],
+                    "!cmake_args": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_DEPS=ON",
+                        "-DBUILD_TESTING=OFF"
+                    ]
+                },
+                "armv7": {
+                    "!packages": [],
+                    "!build_steps": [
+                        "build"
+                    ],
+                    "!test_steps": [],
+                    "!cmake_args": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_DEPS=ON",
+                        "-DBUILD_TESTING=OFF"
+                    ]
+                },
+                "arm64": {
+                    "!packages": [],
+                    "!build_steps": [
+                        "build"
+                    ],
+                    "!test_steps": [],
+                    "!cmake_args": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_DEPS=ON",
+                        "-DBUILD_TESTING=OFF"
+                    ]
+                }
+            }
+        },
+        "android": {
+            "imports": [
+                "s2n",
+                "android-sdk"
+            ],
+            "build_env": {
+                "ANDROID_SDK_ROOT": "{android_sdk_path}"
+            },
+            "!build_steps": [
+                "mvn -B compile -Dlibcrypto.path={libcrypto_path}"
+            ],
+            "!test_steps": [
+                "mvn -B test -Dlibcrypto.path={libcrypto_path}"
+            ],
+            "architectures": {
+                "armv7": {
+                    "!packages": [],
+                    "!build_steps": [
+                        "build"
+                    ],
+                    "!test_steps": [],
+                    "!cmake_args": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_DEPS=ON",
+                        "-DBUILD_TESTING=OFF"
+                    ]
+                },
+                "arm64": {
+                    "!packages": [],
+                    "!build_steps": [
+                        "build"
+                    ],
+                    "!test_steps": [],
+                    "!cmake_args": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_DEPS=ON",
+                        "-DBUILD_TESTING=OFF"
+                    ]
+                }
+            }
+        },
+        "freebsd": {
+            "imports": [
+                "s2n"
+            ],
+            "packages": [
+                "openjdk8"
+            ],
+            "!build_env": {
+                "JAVA_HOME": "/usr/local/openjdk8"
+            },
+            "!build_steps": [
+                "mvn -B compile -Dlibcrypto.path={libcrypto_path}"
+            ],
+            "!test_steps": [
+                "mvn -B test -Dlibcrypto.path={libcrypto_path}"
+            ]
+        }
+    }
+}
